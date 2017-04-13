@@ -7,7 +7,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git@github.com:gabyvs/es6-playground.git"
+    "url": "git@github.com:gabyvs/modern-web-playground.git"
   },
   "scripts": {
     "start": "http-server"
