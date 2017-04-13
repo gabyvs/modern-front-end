@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+    <title>Shadow Dom</title>
+    <link href="../../../css/styles.css" rel="stylesheet" type="text/css">
+    <style>
+        span {
+            color: red;
+        }
+        div {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<span>I live inside the top-level DOM and have those styles!</span>
+<div class="documentation">
+    <div class="title">What happens here?</div>
+    <div class="explanation">
+        Shadow dom encapsulates dom nodes inside the main dom. Styles do not affect main dom and viceversa.
+        Querying elements only returns the ones of the main or the shadowed.
+    </div>
+</div>
+<div id="target">
+    <span>I was declared in toplevel dom and pulled inside shadow dom, but I still have top level styles only!</span>
+</div>
+<script>
+    const shadowHost = document.querySelector('#target');
+    const shadowRoot = shadowHost.createShadowRoot();
+    shadowRoot.innerHTML = '<span>I live inside a shadow DOM and have shadow dom styles inside!</span>';
+    const myStyle = document.createElement('style');
+    myStyle.innerHTML = 'span { color: purple; }';
+    shadowRoot.appendChild(myStyle);
+
+    const myContent = document.createElement('content');
+    myContent.setAttribute('select', 'span');
+    shadowRoot.appendChild(myContent);
+</script>
+</body>
+</html>

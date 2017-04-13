@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Custom Elements</title>
+    <link rel="stylesheet" href="../../../css/styles.css">
+</head>
+<body>
+<div class="documentation">
+    <div class="title">What's happening here?</div>
+    <div class="explanation">
+        We are creating a new custom element using document.registerElement function. It requires that the name includes a `-`.
+        <br />
+        Only the one with the prototype has a function for alert. Check the console!
+        <br />
+        We can also add elements that render as regular elements, like the button. They are custom but will default to
+        regular behavior in old browsers. Check the button! it has an `is` attribute BUT its tag is from button.
+        Also, we inherit styles for button in general.
+        <br />
+        <h4>Element life cycle</h4>
+        We have create, attach, detach, changeAttribute callbacks.
+    </div>
+</div>
+<button is="the-button">I'm custom but created with a custom element using the is attribute</button>
+<br />
+<script>
+    const Thing =  document.registerElement('my-thing');
+    const theThing = new Thing();
+    theThing.innerText = 'I am a new thing';
+    console.log('index.html > 7', 'theThing', theThing);
+    document.body.appendChild(theThing);
+
+    const myProto = Object.create(HTMLElement.prototype);
+    myProto.alertMe = () => {
+        alert('bar');
+    };
+
+    const Other = document.registerElement('other-thing', { prototype: myProto });
+
+    const theOther = new Other();
+    console.log('index.html > 27', 'theOther', theOther);
+
+    theOther.innerText = 'Adding this text to the other element with a prototype. Click here to execute the function';
+    document.body.appendChild(theOther);
+
+    theOther.addEventListener('click', (e) => {
+        e.target.alertMe();
+    });
+
+    console.log('index.html > 21', 'theThing.alertMe', theThing.alertMe);
+    console.log('index.html > 21', 'theOther.alertMe', theOther.alertMe);
+
+
+    // second video
+
+    const btnProto = Object.create(HTMLButtonElement.prototype);
+
+    btnProto.alertMe = () => {
+        alert('button alert');
+    };
+
+    const TheButton = document.registerElement('the-button', {
+        prototype: btnProto,
+        extends: 'button'
+    });
+
+    const theButton = new TheButton();
+    theButton.innerText = 'Hover over me';
+    theButton.addEventListener('mouseenter', (e) => {
+        e.target.alertMe();
+    });
+    document.body.appendChild(theButton);
+
+    const otherButtonProto = Object.create(HTMLButtonElement.prototype);
+    otherButtonProto.attachedCallback = function () {
+        console.log('Attached');
+        this.addEventListener('click', () => {
+            alert('Attached callback called!');
+        })
+    };
+
+    const OtherButton = document.registerElement('other-button', {
+        prototype: otherButtonProto,
+        extends: 'button'
+    });
+
+    const otherButton = new OtherButton();
+    otherButton.innerText = 'Created and attached on attach';
+
+    function addit () {
+        document.body.appendChild(otherButton);
+    }
+
+
+</script>
+</body>
+</html>
