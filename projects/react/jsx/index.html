@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>React JSX</title>
+    <link rel="stylesheet" href="../../../main.css">
+    <script src="https://unpkg.com/react@latest/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+<div class="goback"><a href="../../../index.html">Home</a></div>
+<div class="documentation">
+    <div class="title">What's happenning here?</div>
+    <div class="explanation">
+        We are using react to get one element from the dom and creating a new element into it.
+        <br />
+        <b>React.createElement</b> takes as arguments the tag string, a dictionary of element attributes and the children of the element. So, a react element definition kind of reflects the actual dom.
+        <p>The first element is inserting a simple anchor string</p>
+        <p>The second element is inserting two spans as children</p>
+        <p>The third one is generating a new plan ES6 class that can be reused and inserting it later. We are sending the `stranger` as properties.</p>
+        <p>This file is loading react and babel directly on the head!</p>
+    </div>
+</div>
+<div id="simpleString"></div>
+<div id="twoChildren"></div>
+<div id="classElement"></div>
+<script type="text/babel">
+    ReactDOM.render(
+        React.createElement('a', { href: '#'}, 'Hello World'), // create uses tag string, dictionary of element attributes, children
+        document.getElementById('simpleString') // document selector
+    );
+
+    ReactDOM.render(
+        React.createElement('a', { href: '#'},
+            React.createElement('span', null, 'First span'),
+            React.createElement('span', null, 'Second span')
+        ), // create uses tag string, dictionary of element attributes, children
+        document.getElementById('twoChildren') // document selector
+    );
+
+    class Foo extends React.Component {
+        render () {
+            // either jsx
+            return <a href="#">Hello { this.props.bar}</a>;
+            // or plan javascript
+//            return React.createElement(
+//                'a',
+//                { href: '#' },
+//                'Hello ',
+//                this.props.bar
+//            );
+        }
+    };
+
+    ReactDOM.render(<Foo bar="stranger" />, document.getElementById('classElement'));
+</script>
+</body>
+</html>
