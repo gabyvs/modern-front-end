@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>In browser chat room</title>
+    <link rel="stylesheet" href="../../../main.css">
+    <script src="https://unpkg.com/react@latest/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+<div class="documentation">
+    <div class="title">What's happenning here?</div>
+    <div class="explanation">
+        We are building a simple chat room that uses nested classes, event handling, state management and a separation of state an props.
+        Message uses props since it doesnt need to be rerendered since the user name and message will not change.
+        But Chat Room uses state because it needs to rerender the new messages that we are adding.
+    </div>
+</div>
+<div id="chat"></div>
+<script type="text/babel">
+const Message = React.createClass({
+    render: function () {
+        return(
+            <div>
+                <strong>{ this.props.username }:</strong>
+                <span>{ this.props.message }</span>
+            </div>
+        );
+    }
+});
+
+const ChatRoom = React.createClass({
+    getInitialState: function () {
+        return { msgs: [] };
+    },
+    submitHandler: function (event) {
+        event.preventDefault();
+        this.setState({
+            msgs: this.state.msgs.concat([{
+                username: event.target.username.value,
+                msg: event.target.msg.value
+            }])
+        });
+    },
+    render: function () {
+        const msgs = this.state.msgs;
+        return(
+                <div>
+                    <form onSubmit={ this.submitHandler }>
+                        <input placeholder="Name" name="username" />
+                        <input placeholder="Message" name="msg" />
+                        <button type="submit">Send!</button>
+                    </form>
+                    {
+                        msgs.map(function (m) {
+                            return <Message username={m.username} message={m.msg} />;
+                        })
+                    }
+                </div>
+        );
+    }
+});
+
+ReactDOM.render(
+    <ChatRoom/>,
+    document.getElementById('chat')
+)
+</script>
+</body>
+</html>

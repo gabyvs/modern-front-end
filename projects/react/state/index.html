@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Events, properties and state</title>
+    <link rel="stylesheet" href="../../../main.css">
+    <script src="https://unpkg.com/react@latest/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+<div class="goback"><a href="../../../index.html">Home</a></div>
+<div class="documentation">
+    <div class="title">What's happenning here?</div>
+    <div class="explanation">
+        We are building a dynamic react mini application that has a counter that increments each time a button is pressed.
+        <p>
+            First we are creating a react class Counter and attaching in to a dom element. The class will have state and properties.
+        </p>
+        <p>
+            The use of state should be limited to dynamic content, because it adds overhead since it needs to make sure
+            there are no changes in what is being displayed to the user and also needs to prevent conflicts when changing state.
+        </p>
+        <p>
+            Whenever you have things that don't need to be dynamic, use properties instead and construct it declaratively. This is more performant.
+        </p>
+    </div>
+</div>
+<div id="target"></div>
+<script type="text/babel">
+    const Counter = React.createClass({
+        getInitialState: () => {
+            return { count: 0 };
+        },
+        clickHandler: function () {
+            this.setState({
+                count: this.state.count + 1
+            })
+        },
+        render: function () {
+            return (<button onClick={this.clickHandler}>Clicked { this.state.count }{ this.props.suffix }</button>);
+        }
+    });
+
+    ReactDOM.render(<Counter suffix=" times!"/>, document.getElementById('target'));
+</script>
+</body>
+</html>
